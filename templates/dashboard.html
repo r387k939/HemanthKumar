@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Student Assignment Tracker{% endblock %}
+{% block content %}
+<h2 class="mb-4">Summary Dashboard</h2>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-2 col-6"><div class="stat-card"><span>Students</span><strong>{{ counts.students }}</strong></div></div>
+    <div class="col-md-2 col-6"><div class="stat-card"><span>Courses</span><strong>{{ counts.courses }}</strong></div></div>
+    <div class="col-md-2 col-6"><div class="stat-card"><span>Enrollments</span><strong>{{ counts.enrollments }}</strong></div></div>
+    <div class="col-md-2 col-6"><div class="stat-card"><span>Assignments</span><strong>{{ counts.assignments }}</strong></div></div>
+    <div class="col-md-2 col-6"><div class="stat-card"><span>Submissions</span><strong>{{ counts.submissions }}</strong></div></div>
+    <div class="col-md-2 col-6"><div class="stat-card"><span>Avg. Score</span><strong>{{ avg_score or 0 }}</strong></div></div>
+</div>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <div class="fw-semibold mb-2">Average progress across all enrollments</div>
+        <div class="display-6">{{ avg_progress or 0 }}%</div>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-header bg-white fw-semibold">Course-level aggregates</div>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Course</th>
+                    <th>Students</th>
+                    <th>Assignments</th>
+                    <th>Average Progress</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in course_snapshot %}
+                    <tr>
+                        <td>{{ row.course_name }}</td>
+                        <td>{{ row.student_count }}</td>
+                        <td>{{ row.assignment_count }}</td>
+                        <td>{{ row.avg_progress or 0 }}%</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

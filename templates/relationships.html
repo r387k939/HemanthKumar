@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Relationships{% endblock %}
+{% block content %}
+<h2 class="mb-4">Relationship View</h2>
+
+<p class="text-muted">
+    This page highlights the relationship requirement by showing each course together with its
+    enrolled students and assignments.
+</p>
+
+{% for course in courses %}
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <div class="fw-semibold">{{ course.course_name }}</div>
+        <div class="small text-muted">Instructor: {{ course.instructor.instructor_name }}</div>
+    </div>
+    <div class="card-body">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <h5>Enrolled students</h5>
+                <ul class="mb-0">
+                    {% for enrollment in course.enrollments %}
+                    <li>{{ enrollment.student.full_name }} - {{ enrollment.progress_percent }}%</li>
+                    {% else %}
+                    <li class="text-muted">No students enrolled yet.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <h5>Assignments</h5>
+                <ul class="mb-0">
+                    {% for assignment in course.assignments %}
+                    <li>{{ assignment.title }} | Max: {{ assignment.max_score }} | Due: {{ assignment.due_date.strftime('%Y-%m-%d') }}</li>
+                    {% else %}
+                    <li class="text-muted">No assignments available.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

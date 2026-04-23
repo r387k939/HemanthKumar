@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Course Form{% endblock %}
+{% block content %}
+<h2 class="mb-3">{{ 'Edit Course' if course else 'Add Course' }}</h2>
+
+<div class="card shadow-sm form-card">
+    <div class="card-body">
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Course name</label>
+                    <input class="form-control" name="course_name" value="{{ course.course_name if course else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Instructor</label>
+                    <select class="form-select" name="instructor_id" required>
+                        {% for item in instructors %}
+                        <option value="{{ item.instructor_id }}" {% if course and course.instructor_id == item.instructor_id %}selected{% endif %}>
+                            {{ item.instructor_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Start date</label>
+                    <input class="form-control" name="start_date" type="date" value="{{ course.start_date.strftime('%Y-%m-%d') if course else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">End date</label>
+                    <input class="form-control" name="end_date" type="date" value="{{ course.end_date.strftime('%Y-%m-%d') if course else '' }}" required>
+                </div>
+            </div>
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('courses') }}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

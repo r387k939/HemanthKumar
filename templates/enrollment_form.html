@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Enrollment Form{% endblock %}
+{% block content %}
+<h2 class="mb-3">Add Enrollment</h2>
+
+<div class="card shadow-sm form-card">
+    <div class="card-body">
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Student</label>
+                    <select class="form-select" name="student_id" required>
+                        {% for item in students %}
+                        <option value="{{ item.student_id }}">{{ item.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Course</label>
+                    <select class="form-select" name="course_id" required>
+                        {% for item in courses %}
+                        <option value="{{ item.course_id }}">{{ item.course_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Record source</label>
+                    <select class="form-select" name="source_id" required>
+                        {% for item in sources %}
+                        <option value="{{ item.source_id }}">{{ item.source_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Enrollment date</label>
+                    <input class="form-control" name="enrollment_date" type="date" required>
+                </div>
+            </div>
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('enrollments') }}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

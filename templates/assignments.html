@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Assignments{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Assignments</h2>
+    <a class="btn btn-primary" href="{{ url_for('add_assignment') }}">Add assignment</a>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-striped align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Title</th>
+                    <th>Course</th>
+                    <th>Max Score</th>
+                    <th>Due Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in assignments %}
+                <tr>
+                    <td>{{ row.title }}</td>
+                    <td>{{ row.course.course_name }}</td>
+                    <td>{{ row.max_score }}</td>
+                    <td>{{ row.due_date.strftime('%Y-%m-%d') }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4" class="text-center py-4 text-muted">No assignments available.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

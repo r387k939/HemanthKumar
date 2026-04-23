@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Student Form{% endblock %}
+{% block content %}
+<h2 class="mb-3">{{ 'Edit Student' if student else 'Add Student' }}</h2>
+
+<div class="card shadow-sm form-card">
+    <div class="card-body">
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Full name</label>
+                    <input class="form-control" name="full_name" value="{{ student.full_name if student else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input class="form-control" name="email" type="email" value="{{ student.email if student else '' }}" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Program</label>
+                    <select class="form-select" name="program_id" required>
+                        {% for item in programs %}
+                        <option value="{{ item.program_id }}" {% if student and student.program_id == item.program_id %}selected{% endif %}>
+                            {{ item.program_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Student status</label>
+                    <select class="form-select" name="status_id" required>
+                        {% for item in statuses %}
+                        <option value="{{ item.status_id }}" {% if student and student.status_id == item.status_id %}selected{% endif %}>
+                            {{ item.status_name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4 d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('students') }}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

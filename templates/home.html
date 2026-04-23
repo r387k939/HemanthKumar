@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Home | Student Assignment Tracker{% endblock %}
+{% block content %}
+<div class="p-4 p-md-5 rounded-4 hero-panel mb-4">
+    <h1 class="display-6 fw-bold">Project 3 Full-Stack Database Application</h1>
+    <p class="lead mb-3">
+        This Flask application uses the normalized Student Assignment Tracker database and supports
+        CRUD operations, relationship views, transaction logic, validation, and a small summary dashboard.
+    </p>
+    <div class="d-flex flex-wrap gap-2">
+        <a class="btn btn-primary" href="{{ url_for('dashboard') }}">Open dashboard</a>
+        <a class="btn btn-outline-light" href="{{ url_for('relationships') }}">View relationships</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-semibold">What this app demonstrates</div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Multi-table CRUD for Students, Courses, Enrollments, Assignments, and Submissions.</li>
+                    <li>Relationship handling across one-to-many and many-to-many tables.</li>
+                    <li>A transaction that stores a submission, writes to an activity log, and recalculates progress.</li>
+                    <li>Server-side validation to block missing values, duplicate records, and invalid scores.</li>
+                    <li>Summary metrics built from aggregate SQL functions.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white fw-semibold">Recent activity</div>
+            <div class="card-body">
+                {% if recent_logs %}
+                    <ul class="list-group list-group-flush">
+                        {% for log in recent_logs %}
+                            <li class="list-group-item px-0">
+                                <div class="fw-semibold">{{ log.event_type.replace('_', ' ').title() }}</div>
+                                <div class="small text-muted">{{ log.event_note }}</div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p class="text-muted mb-0">No log entries are available yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
