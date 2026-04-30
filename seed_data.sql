@@ -1,2 +1,0 @@
--- This file is optional because final_schema.sql already contains demo inserts.
--- You can use it later for custom test data if needed.

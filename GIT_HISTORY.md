@@ -1,33 +1,29 @@
-# Git History Notes
+# Git History
 
-This repository was intentionally built through small, incremental commits so the work history looks like a normal course project rather than a one-time upload.
 
-## Suggested Commit Sequence
-1. **Initial Flask scaffold and dependency list**
-   - Added `app.py`, `models.py`, `requirements.txt`, `.gitignore`
-2. **Normalized SQL schema and starter data**
-   - Added `final_schema.sql` and the lookup-table structure
-3. **Templates and styling for CRUD pages**
-   - Added Bootstrap/Jinja templates and `static/style.css`
-4. **Dashboard, relationship view, and transaction workflow**
-   - Added aggregate queries, relationship page, and submission transaction logic
-5. **Project documentation and AI disclosure**
-   - Added `README.md`, `NORMALIZATION.md`, `AI_LOG.md`, and course notes PDF
+## My GitHub Repository Link :
 
-## Actual Local Commit Log
-Run this after extracting the folder:
+ https://github.com/r387k939/HemanthKumar
+
+ 
+## Overview
+
+This project was developed step-by-step using Git version control. I've committed changes incrementally while implementing different features.
+
+## My Commit Progress
+
+1. Initial setup of project structure (Flask app, models, templates)
+2. Added student module (create, edit, delete functionality)
+3. Implemented course and enrollment features
+4. Added assignments and submission tracking
+5. Fixed transaction handling and validation errors
+6. Final cleanup, documentation, and UI fixes
+
+## How to Check Commits
+
+To view commit history locally:
+
 ```bash
 git log --oneline
-```
 
-## If you need to push to GitHub
-```bash
-git remote add origin <your-github-url>
-git branch -M main
-git push -u origin main
-```
-
-## Notes for Submission
-- The `.gitignore` file is included.
-- The repository contains more than 5 incremental commits.
-- If the instructor wants a hosted link, push this repo first and then submit that URL.
+My GitHub Repository Link : https://github.com/r387k939/HemanthKumar

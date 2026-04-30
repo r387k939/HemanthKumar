@@ -1,84 +1,67 @@
-# Student Assignment Tracker - DBMS Project 3
+# Student Assignment Tracker (DBMS Project 3)
 
-## Project Description
-This project is a small full-stack academic tracking system built for a database management course. It is meant for instructors, teaching assistants, or department staff who want to manage students, courses, enrollments, assignments, and submissions from one interface.
+## Desciption
 
-The application uses a normalized relational schema and demonstrates the exact items required in the project sheet:
-- Python 3
-- Flask backend
-- SQLite database
-- SQLAlchemy ORM
-- HTML, CSS, Bootstrap, and Jinja2 templates
-- Git with incremental commits
-- AI usage disclosure
+This project is a full-stack database application built using Flask, SQLAlchemy, and SQLite.
 
-## Core Features
-1. **Multi-table CRUD**
-   - Students: create, read, update, delete
-   - Courses: create, read, update, delete
-   - Enrollments: create and view
-   - Assignments: create and view
-   - Submissions: create and view
+The goal of the system is to manage students, courses, enrollments, assignments, and submissions in a simple academic setting. While building this, I focused on applying database concepts like normalization, relationships, validation, and transactions in a practical way.
 
-2. **Relationship Management**
-   - Many-to-many relationship between Students and Courses through Enrollments
-   - One-to-many relationship between Courses and Assignments
-   - One-to-many relationship between Students and Submissions
+---
 
-3. **Transaction Logic**
-   - When a submission is recorded, the app:
-     1. inserts the submission,
-     2. inserts a matching activity log row,
-     3. recalculates enrollment progress,
-     all inside one transaction block.
+## Features
 
-4. **Validation**
-   - Empty strings are blocked
-   - Duplicate student email addresses are blocked
-   - Duplicate student-course enrollments are blocked
-   - Max score must be positive
-   - Score must stay between 0 and the assignment max score
-   - End date cannot be earlier than the start date
+- Add, edit, and delete students
+- Manage courses and instructors
+- Enroll students into courses
+- Create assignments for each course
+- Record student submissions with scores
+- Automatically update student progress
+- Maintain activity logs for submissions
+- View dashboard with basic summary metrics
 
-5. **Summary Dashboard**
-   - Uses aggregate functions such as `COUNT` and `AVG`
-   - Displays high-level counts and course-level summary metrics
+---
 
-## Folder Structure
-```text
-dbms_project3_submission/
-├── app.py
-├── models.py
-├── final_schema.sql
-├── seed_data.sql
-├── requirements.txt
-├── README.md
-├── NORMALIZATION.md
-├── AI_LOG.md
-├── GIT_HISTORY.md
-├── .gitignore
-├── static/
-│   └── style.css
-├── templates/
-│   ├── base.html
-│   ├── home.html
-│   ├── dashboard.html
-│   ├── students.html
-│   ├── student_form.html
-│   ├── courses.html
-│   ├── course_form.html
-│   ├── enrollments.html
-│   ├── enrollment_form.html
-│   ├── assignments.html
-│   ├── assignment_form.html
-│   ├── submissions.html
-│   ├── submission_form.html
-│   └── relationships.html
-└── docs/
-    └── submission_notes.pdf
-```
+## Technologies Used
+
+- Python (Flask)
+- SQLAlchemy
+- SQLite
+- HTML (Jinja templates)
+- Bootstrap (for UI)
+
+---
+
+## Core Functionality
+
+### 1. CRUD Operations
+- Students and Courses support full CRUD operations  
+- Enrollments, Assignments, and Submissions are created and viewed through forms  
+
+### 2. Relationships
+- Students and Courses have a many-to-many relationship through the Enrollment table  
+- Each Course can have multiple Assignments  
+- Each Student can have multiple Submissions  
+
+### 3. Transaction Handling
+When a submission is recorded, the following happens together:
+- A submission record is inserted  
+- An activity log entry is created  
+- The student’s course progress is recalculated  
+
+If any step fails, the transaction is rolled back.
+
+### 4. Validation
+- Empty fields are not allowed  
+- Email must be unique  
+- Duplicate enrollments are prevented  
+- Scores must be within valid range  
+- Dates are validated (including reasonable year limits)  
+- End date cannot be before start date  
+
+---
 
 ## Installation Instructions
+
 ### 1. Create and activate a virtual environment
 ```bash
 python -m venv venv
@@ -100,46 +83,21 @@ If you want to inspect the schema manually:
 sqlite3 instance/project3.db < final_schema.sql
 ```
 
+## Git Hub Repository Link : " https://github.com/r387k939/HemanthKumar "
+
 ## Usage
+
+## How to Run the Project
+
+1. Navigate to the project folder:
+
+```bash
+cd hemanth_dbms_project3_submission
+
 ### Start the server
 ```bash
 python app.py
 ```
 
 ### Open in the browser
-```text
 http://127.0.0.1:5000/
-```
-
-## Main Pages
-- `/` - Landing page
-- `/dashboard` - Summary dashboard
-- `/students` - Student CRUD
-- `/courses` - Course CRUD
-- `/enrollments` - Enrollment listing and creation
-- `/assignments` - Assignment listing and creation
-- `/submissions` - Submission listing and transaction-based insertion
-- `/relationships` - Relationship view
-
-## Suggested Demo Flow
-1. Open the dashboard and verify aggregate counts.
-2. Add a new student.
-3. Add a new course.
-4. Enroll a student in a course.
-5. Add an assignment for that course.
-6. Record a submission for the enrolled student.
-7. Open the relationship page and show that linked records display correctly.
-
-## Git / Version Control Notes
-The included repository history was created as a sequence of small course-style commits instead of one large upload. See `GIT_HISTORY.md` or run:
-```bash
-git log --oneline
-```
-
-## Submission Reminder
-If your instructor expects a hosted Git link, push this folder to GitHub or GitLab after extraction:
-```bash
-git remote add origin <your-repository-url>
-git push -u origin main
-```
-Then paste that repository URL into your final course submission.

@@ -1,9 +1,11 @@
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+# initialize SQLAlchemy instance
 db = SQLAlchemy()
 
 
+# stores program information (e.g., Computer Science, Data Science)
 class Program(db.Model):
     __tablename__ = "programs"
 
@@ -13,6 +15,7 @@ class Program(db.Model):
     students = db.relationship("Student", back_populates="program")
 
 
+# stores possible student status values (active, graduated, etc.)
 class StudentStatus(db.Model):
     __tablename__ = "student_statuses"
 
@@ -22,6 +25,7 @@ class StudentStatus(db.Model):
     students = db.relationship("Student", back_populates="status")
 
 
+# lookup table for how enrollment records were created
 class RecordSource(db.Model):
     __tablename__ = "record_sources"
 
@@ -31,6 +35,7 @@ class RecordSource(db.Model):
     enrollments = db.relationship("Enrollment", back_populates="source")
 
 
+# stores instructor information (separated to avoid repetition)
 class Instructor(db.Model):
     __tablename__ = "instructors"
 
@@ -40,6 +45,7 @@ class Instructor(db.Model):
     courses = db.relationship("Course", back_populates="instructor")
 
 
+# main student table with references to program and status
 class Student(db.Model):
     __tablename__ = "students"
 
@@ -52,10 +58,13 @@ class Student(db.Model):
 
     program = db.relationship("Program", back_populates="students")
     status = db.relationship("StudentStatus", back_populates="students")
+
+    # relationships for linked data
     enrollments = db.relationship("Enrollment", back_populates="student", cascade="all, delete-orphan")
     submissions = db.relationship("Submission", back_populates="student", cascade="all, delete-orphan")
 
 
+# course table linked to instructor
 class Course(db.Model):
     __tablename__ = "courses"
 
@@ -67,10 +76,13 @@ class Course(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     instructor = db.relationship("Instructor", back_populates="courses")
+
+    # relationships
     enrollments = db.relationship("Enrollment", back_populates="course", cascade="all, delete-orphan")
     assignments = db.relationship("Assignment", back_populates="course", cascade="all, delete-orphan")
 
 
+# linking table between students and courses (many-to-many)
 class Enrollment(db.Model):
     __tablename__ = "enrollments"
     __table_args__ = (
@@ -89,6 +101,7 @@ class Enrollment(db.Model):
     source = db.relationship("RecordSource", back_populates="enrollments")
 
 
+# assignments created under each course
 class Assignment(db.Model):
     __tablename__ = "assignments"
     __table_args__ = (
@@ -103,9 +116,12 @@ class Assignment(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     course = db.relationship("Course", back_populates="assignments")
+
+    # one assignment can have many submissions
     submissions = db.relationship("Submission", back_populates="assignment", cascade="all, delete-orphan")
 
 
+# stores assignment submissions and grading details
 class Submission(db.Model):
     __tablename__ = "submissions"
     __table_args__ = (
@@ -124,6 +140,7 @@ class Submission(db.Model):
     student = db.relationship("Student", back_populates="submissions")
 
 
+# keeps track of important system actions (like submission creation)
 class ActivityLog(db.Model):
     __tablename__ = "activity_logs"
 
