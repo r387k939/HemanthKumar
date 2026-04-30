@@ -1,11 +1,13 @@
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
-# initialize SQLAlchemy instance
+from flask_sqlalchemy import SQLAlchemy
+
+
+# Initialize SQLAlchemy instance.
 db = SQLAlchemy()
 
 
-# stores program information (e.g., Computer Science, Data Science)
+# Stores academic program information such as Computer Science or Data Science.
 class Program(db.Model):
     __tablename__ = "programs"
 
@@ -15,7 +17,7 @@ class Program(db.Model):
     students = db.relationship("Student", back_populates="program")
 
 
-# stores possible student status values (active, graduated, etc.)
+# Stores possible student status values such as Active or Graduated.
 class StudentStatus(db.Model):
     __tablename__ = "student_statuses"
 
@@ -25,7 +27,7 @@ class StudentStatus(db.Model):
     students = db.relationship("Student", back_populates="status")
 
 
-# lookup table for how enrollment records were created
+# Lookup table for how enrollment records were created.
 class RecordSource(db.Model):
     __tablename__ = "record_sources"
 
@@ -35,7 +37,7 @@ class RecordSource(db.Model):
     enrollments = db.relationship("Enrollment", back_populates="source")
 
 
-# stores instructor information (separated to avoid repetition)
+# Stores instructor information separately to avoid repeated instructor names.
 class Instructor(db.Model):
     __tablename__ = "instructors"
 
@@ -45,44 +47,70 @@ class Instructor(db.Model):
     courses = db.relationship("Course", back_populates="instructor")
 
 
-# main student table with references to program and status
+# Main student table with foreign keys to program and status.
 class Student(db.Model):
     __tablename__ = "students"
 
     student_id = db.Column(db.Integer, primary_key=True)
     full_name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    program_id = db.Column(db.Integer, db.ForeignKey("programs.program_id"), nullable=False)
-    status_id = db.Column(db.Integer, db.ForeignKey("student_statuses.status_id"), nullable=False)
+    program_id = db.Column(
+        db.Integer,
+        db.ForeignKey("programs.program_id"),
+        nullable=False,
+    )
+    status_id = db.Column(
+        db.Integer,
+        db.ForeignKey("student_statuses.status_id"),
+        nullable=False,
+    )
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     program = db.relationship("Program", back_populates="students")
     status = db.relationship("StudentStatus", back_populates="students")
 
-    # relationships for linked data
-    enrollments = db.relationship("Enrollment", back_populates="student", cascade="all, delete-orphan")
-    submissions = db.relationship("Submission", back_populates="student", cascade="all, delete-orphan")
+    enrollments = db.relationship(
+        "Enrollment",
+        back_populates="student",
+        cascade="all, delete-orphan",
+    )
+    submissions = db.relationship(
+        "Submission",
+        back_populates="student",
+        cascade="all, delete-orphan",
+    )
 
 
-# course table linked to instructor
+# Course table linked to an instructor.
 class Course(db.Model):
     __tablename__ = "courses"
 
     course_id = db.Column(db.Integer, primary_key=True)
     course_name = db.Column(db.String(120), nullable=False)
-    instructor_id = db.Column(db.Integer, db.ForeignKey("instructors.instructor_id"), nullable=False)
+    instructor_id = db.Column(
+        db.Integer,
+        db.ForeignKey("instructors.instructor_id"),
+        nullable=False,
+    )
     start_date = db.Column(db.Date, nullable=False)
     end_date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     instructor = db.relationship("Instructor", back_populates="courses")
 
-    # relationships
-    enrollments = db.relationship("Enrollment", back_populates="course", cascade="all, delete-orphan")
-    assignments = db.relationship("Assignment", back_populates="course", cascade="all, delete-orphan")
+    enrollments = db.relationship(
+        "Enrollment",
+        back_populates="course",
+        cascade="all, delete-orphan",
+    )
+    assignments = db.relationship(
+        "Assignment",
+        back_populates="course",
+        cascade="all, delete-orphan",
+    )
 
 
-# linking table between students and courses (many-to-many)
+# Linking table between students and courses.
 class Enrollment(db.Model):
     __tablename__ = "enrollments"
     __table_args__ = (
@@ -90,18 +118,30 @@ class Enrollment(db.Model):
     )
 
     enrollment_id = db.Column(db.Integer, primary_key=True)
-    student_id = db.Column(db.Integer, db.ForeignKey("students.student_id"), nullable=False)
-    course_id = db.Column(db.Integer, db.ForeignKey("courses.course_id"), nullable=False)
+    student_id = db.Column(
+        db.Integer,
+        db.ForeignKey("students.student_id"),
+        nullable=False,
+    )
+    course_id = db.Column(
+        db.Integer,
+        db.ForeignKey("courses.course_id"),
+        nullable=False,
+    )
     enrollment_date = db.Column(db.Date, nullable=False)
     progress_percent = db.Column(db.Numeric(5, 2), default=0.00, nullable=False)
-    source_id = db.Column(db.Integer, db.ForeignKey("record_sources.source_id"), nullable=False)
+    source_id = db.Column(
+        db.Integer,
+        db.ForeignKey("record_sources.source_id"),
+        nullable=False,
+    )
 
     student = db.relationship("Student", back_populates="enrollments")
     course = db.relationship("Course", back_populates="enrollments")
     source = db.relationship("RecordSource", back_populates="enrollments")
 
 
-# assignments created under each course
+# Assignments created under each course.
 class Assignment(db.Model):
     __tablename__ = "assignments"
     __table_args__ = (
@@ -109,19 +149,25 @@ class Assignment(db.Model):
     )
 
     assignment_id = db.Column(db.Integer, primary_key=True)
-    course_id = db.Column(db.Integer, db.ForeignKey("courses.course_id"), nullable=False)
+    course_id = db.Column(
+        db.Integer,
+        db.ForeignKey("courses.course_id"),
+        nullable=False,
+    )
     title = db.Column(db.String(150), nullable=False)
     max_score = db.Column(db.Integer, nullable=False)
     due_date = db.Column(db.Date, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     course = db.relationship("Course", back_populates="assignments")
+    submissions = db.relationship(
+        "Submission",
+        back_populates="assignment",
+        cascade="all, delete-orphan",
+    )
 
-    # one assignment can have many submissions
-    submissions = db.relationship("Submission", back_populates="assignment", cascade="all, delete-orphan")
 
-
-# stores assignment submissions and grading details
+# Stores assignment submissions and grading details.
 class Submission(db.Model):
     __tablename__ = "submissions"
     __table_args__ = (
@@ -129,8 +175,16 @@ class Submission(db.Model):
     )
 
     submission_id = db.Column(db.Integer, primary_key=True)
-    assignment_id = db.Column(db.Integer, db.ForeignKey("assignments.assignment_id"), nullable=False)
-    student_id = db.Column(db.Integer, db.ForeignKey("students.student_id"), nullable=False)
+    assignment_id = db.Column(
+        db.Integer,
+        db.ForeignKey("assignments.assignment_id"),
+        nullable=False,
+    )
+    student_id = db.Column(
+        db.Integer,
+        db.ForeignKey("students.student_id"),
+        nullable=False,
+    )
     submitted_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
     score = db.Column(db.Numeric(5, 2))
     grader_note = db.Column(db.String(255))
@@ -140,7 +194,7 @@ class Submission(db.Model):
     student = db.relationship("Student", back_populates="submissions")
 
 
-# keeps track of important system actions (like submission creation)
+# Keeps track of important system actions such as submission creation.
 class ActivityLog(db.Model):
     __tablename__ = "activity_logs"
 
