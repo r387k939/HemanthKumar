@@ -38,10 +38,13 @@ CREATE TABLE students (
     program_id INTEGER NOT NULL,
     status_id INTEGER NOT NULL,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (program_id) REFERENCES programs(program_id),
-    FOREIGN KEY (status_id) REFERENCES student_statuses(status_id)
-);
 
+    FOREIGN KEY (program_id)
+        REFERENCES programs(program_id),
+
+    FOREIGN KEY (status_id)
+        REFERENCES student_statuses(status_id)
+);
 CREATE TABLE courses (
     course_id INTEGER PRIMARY KEY AUTOINCREMENT,
     course_name TEXT NOT NULL,
