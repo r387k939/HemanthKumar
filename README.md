@@ -111,33 +111,17 @@ python app.py
 
 ## How to Run the Project
 
-### 1. Start the server
-
 ```bash
+git clone https://github.com/r387k939/HemanthKumar.git
+cd HemanthKumar
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
 python app.py
 ```
 
-### 2. Open the application in the browser
+Open browser:
 
-```text
+```
 http://127.0.0.1:5000/
 ```
-
----
-
-## Main Pages
-
-- `/` - Home page
-- `/dashboard` - Summary dashboard
-- `/students` - Student records
-- `/courses` - Course records
-- `/enrollments` - Enrollment records
-- `/assignments` - Assignment records
-- `/submissions` - Submission records
-- `/relationships` - Course relationship view
-
----
-
-## GitHub Repository
-
-https://github.com/r387k939/HemanthKumar
