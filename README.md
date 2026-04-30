@@ -8,6 +8,14 @@ The goal of the system is to manage students, courses, enrollments, assignments,
 
 ---
 
+## Key Insight
+
+- The dashboard provides a quick summary of key data such as the number of students, courses, submissions, and the average scores.
+- This makes it easier for instructors to get an overall view of student performance and track progress without going through individual records.
+
+---
+
+
 ## Features
 
 - Add, edit, and delete students
