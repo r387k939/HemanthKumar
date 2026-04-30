@@ -1,197 +1,172 @@
 # Normalization Report
 
-## 1. Original Schema Definition
+## 1. Initial Database Structure
 
-The original schema from the previous database (Project 2.0) contained the following tables:
+At the beginning of the project, the database consisted of the following main tables:
 
-- students(student_id, full_name, email, program_name, student_status, created_at)
-- courses(course_id, course_name, instructor_name, start_date, end_date, created_at)
-- enrollments(enrollment_id, student_id, course_id, enrollment_date, progress_percent, record_source)
-- assignments(assignment_id, course_id, title, max_score, due_date, created_at)
-- submissions(submission_id, assignment_id, student_id, submitted_at, score, grader_note, last_updated)
+- students(student_id, full_name, email, program_name, student_status, created_at)  
+- courses(course_id, course_name, instructor_name, start_date, end_date, created_at)  
+- enrollments(enrollment_id, student_id, course_id, enrollment_date, progress_percent, record_source)  
+- assignments(assignment_id, course_id, title, max_score, due_date, created_at)  
+- submissions(submission_id, assignment_id, student_id, submitted_at, score, grader_note, last_updated)  
+
+Although this structure worked functionally, some fields such as program name, instructor name, and status were stored repeatedly as plain text. This created redundancy and increased the risk of inconsistent data.
 
 ---
 
-## 2. Functional Dependencies in the Original Schema
+## 2. Functional Dependencies
 
-### students
+### Students
 - student_id → full_name, email, program_name, student_status, created_at  
-- email → full_name, program_name, student_status, created_at  
-  (Assuming email uniquely identifies a student)
+- email → student_id, full_name, program_name, student_status, created_at  
 
-### courses
+### Courses
 - course_id → course_name, instructor_name, start_date, end_date, created_at  
 
-### enrollments
+### Enrollments
 - enrollment_id → student_id, course_id, enrollment_date, progress_percent, record_source  
 - (student_id, course_id) → enrollment_date, progress_percent, record_source  
 
-### assignments
+### Assignments
 - assignment_id → course_id, title, max_score, due_date, created_at  
 - (course_id, title) → max_score, due_date, created_at  
 
-### submissions
+### Submissions
 - submission_id → assignment_id, student_id, submitted_at, score, grader_note, last_updated  
 - (assignment_id, student_id) → submitted_at, score, grader_note, last_updated  
 
 ---
 
+## 3. Data Anomalies Identified
 
-## 3. Potential Anomalies in the Original Structure
+### Update Issues
+Some values like program names, instructor names, and record sources were stored directly in multiple rows.
 
-Even though the original design was already somewhat close to 3NF, I noticed a few practical issues while reviewing the schema, especially related to repeated values and maintainability.
-
-### A. Update Anomaly
-
-- Fields like `program_name`, `student_status`, `instructor_name`, and `record_source` were stored as plain text across multiple rows.
-- If a value needed correction (for example, fixing a program name), it would require updating many records.
-- This increases the risk of inconsistent values such as:
-  - "Computer Science"
-  - "computer science"
-  - "Comp. Science"
+For example, if the program name “Computer Science” needed to be updated, every record containing that value would need to be changed. Missing even one row would lead to inconsistent data.
 
 ---
 
-### B. Insertion Anomaly
+### Insertion Issues
+In the original structure, certain data could not be added independently.
 
-- It was not possible to store a new program, instructor, or record source independently.
-- These values could only be added when inserting a related student, course, or enrollment.
-- This makes the schema less flexible for managing reference data.
-
----
-
-### C. Deletion Anomaly
-
-- If the last student in a program is deleted, the program itself disappears from the system.
-- Similarly, removing the last course taught by an instructor removes all trace of that instructor.
+For instance, a new program such as “Cybersecurity” could not be stored unless a student was already associated with it. Similarly, an instructor could not be added unless a course existed for them.
 
 ---
 
-## 4. Decomposition Steps Toward 3NF
+### Deletion Issues
+Deleting records could accidentally remove useful information.
 
-The original structure did not have repeating groups, but improvements were made by separating reusable values into dedicated lookup tables.
+For example, deleting the last student in a program would remove the only occurrence of that program. The same issue applies to instructors when their last course is removed.
 
 ---
 
-### Step 1: Normalize Student Attributes
+## 4. Normalization Process
 
-**Original:**
-- students(student_id, full_name, email, program_name, student_status, created_at)
+### Step 1: Separating Program and Status
 
-**Decomposed into:**
+Originally, program and status were stored as text inside the students table.
+
+To fix this, they were moved into separate lookup tables:
+
 - programs(program_id, program_name)  
 - student_statuses(status_id, status_name)  
-- students(student_id, full_name, email, program_id, status_id, created_at)
 
-**Reason:**
-- `program_name` and `student_status` are descriptive categories, not independent student facts.
-- Using IDs reduces duplication and improves consistency.
+The students table was updated to reference these using foreign keys.
+
+This removes duplication and ensures consistency.
 
 ---
 
-### Step 2: Normalize Instructor Information
+### Step 2: Separating Instructor Data
 
-**Original:**
-- courses(course_id, course_name, instructor_name, start_date, end_date, created_at)
+Instructor names were originally stored directly in the courses table.
 
-**Decomposed into:**
+This was improved by creating:
+
 - instructors(instructor_id, instructor_name)  
-- courses(course_id, course_name, instructor_id, start_date, end_date, created_at)
 
-**Reason:**
-- Instructor names can repeat across multiple courses.
-- Storing them in a separate table avoids redundancy and simplifies updates.
+The courses table now stores instructor_id instead of repeating names.
 
 ---
 
-### Step 3: Normalize Enrollment Source
+### Step 3: Handling Record Source Properly
 
-**Original:**
-- enrollments(enrollment_id, student_id, course_id, enrollment_date, progress_percent, record_source)
+The enrollment source field (like manual or import) was stored as plain text.
 
-**Decomposed into:**
+A new table was created:
+
 - record_sources(source_id, source_name)  
-- enrollments(enrollment_id, student_id, course_id, enrollment_date, progress_percent, source_id)
 
-**Reason:**
-- `record_source` is a controlled label and fits better as a lookup table.
+The enrollments table now references this using source_id, avoiding inconsistencies.
 
 ---
 
-### Step 4: Add Constraints and Keys
+### Step 4: Adding Constraints
 
-The final design includes the following constraints:
+To strengthen data integrity, the following constraints were added:
 
-- UNIQUE(email) in students  
-- UNIQUE(student_id, course_id) in enrollments  
-- UNIQUE(course_id, title) in assignments  
-- UNIQUE(assignment_id, student_id) in submissions  
+- Unique email for students  
+- Unique student-course pair in enrollments  
+- Unique assignment title per course  
+- Unique submission per student per assignment  
 
-**Reason:**
-- These constraints prevent duplicate or inconsistent data.
-- They reflect real-world rules of the system.
-
-Additionally, these constraints were added after reviewing how the application behaves during testing, ensuring data integrity in real scenarios.
+These constraints prevent duplicate or invalid data entries.
 
 ---
 
-## 5. Why the Final Design is in 3NF
+## 5. Final Database Structure
 
-The final schema satisfies Third Normal Form (3NF) because:
+The final schema includes:
 
-1. Each table has a clearly defined primary key  
-2. All non-key attributes depend on the whole key  
-3. No non-key attribute depends on another non-key attribute  
+- programs  
+- student_statuses  
+- record_sources  
+- instructors  
+- students  
+- courses  
+- enrollments  
+- assignments  
+- submissions  
+- activity_logs  
 
-### Examples:
-
-- In `students`, attributes like `full_name` and `email` depend only on `student_id`, while descriptive data is referenced through foreign keys.
-- In `courses`, course details depend only on `course_id`, and instructor data is stored separately.
-- In `enrollments`, the table captures the relationship between a student and a course without redundant data.
-
----
-
-## 6. NORMALIZATION REPORT
-
-## Overview
-
-The database is normalized to Third Normal Form (3NF).
+Each table has a clear purpose, and relationships are maintained using foreign keys.
 
 ---
 
-## Functional Dependencies
+## 6. Why This Design Is in 3NF
 
-- student_id → full_name, email, program_id, status_id
-- course_id → course_name, instructor_id
-- assignment_id → course_id, title, max_score
+The final database design meets Third Normal Form because:
 
----
+- Each table has a clearly defined primary key  
+- All non-key attributes depend only on the primary key  
+- There are no indirect (transitive) dependencies  
+- Repeated values are moved into separate lookup tables  
+- Relationships are handled using foreign keys  
 
-## 1NF
-
-- All tables contain atomic values
-- No repeating groups
-
----
-
-## 2NF
-
-- All non-key attributes depend on full primary key
+For example:
+- Student details depend only on student_id  
+- Course details depend only on course_id  
+- Enrollment records represent relationships between students and courses  
 
 ---
 
-## 3NF
+## 7. How This Connects to the Application
 
-- No transitive dependencies
-- Lookup tables created:
-  - programs
-  - student_statuses
-  - record_sources
+The Flask application is built on top of this normalized structure.
+
+- Student pages use students, programs, and statuses  
+- Course pages use courses and instructors  
+- Enrollment pages connect students and courses  
+- Submission logic updates progress and logs activity  
+
+This confirms that the application directly uses the normalized schema.
 
 ---
 
-## 6. Conclusion
+## 8. Conclusion
 
-The schema satisfies 3NF and prevents redundancy and anomalies.
+The initial design had repeated values that could cause update, insertion, and deletion problems.  
 
-## Git Hub Repository Link : " https://github.com/r387k939/HemanthKumar "
+After normalization, the database is more organized, avoids duplication, and maintains data consistency.
+
+The final structure follows Third Normal Form and supports the application effectively.
