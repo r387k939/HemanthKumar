@@ -1,10 +1,10 @@
 # Student Assignment Tracker (DBMS Project 3)
 
-## Description :
+## Description
 
 This project is a full-stack database application built using Flask, SQLAlchemy, and SQLite.
 
-The goal of the system is to manage students, courses, enrollments, assignments, and submissions in a simple academic setting. While building this, I focused on applying database concepts like normalization, relationships, validation, and transactions in a practical way.
+The goal of the system is to manage students, courses, enrollments, assignments, and submissions in a simple academic setting. While building this project, I focused on applying database concepts such as normalization, relationships, validation, and transactions in a practical way.
 
 ---
 
@@ -21,91 +21,123 @@ The goal of the system is to manage students, courses, enrollments, assignments,
 
 ---
 
-## Technologies Used : 
+## Technologies Used
 
-- Python (Flask)
+- Python with Flask
 - SQLAlchemy
 - SQLite
-- HTML (Jinja templates)
-- Bootstrap (for UI)
+- HTML with Jinja templates
+- Bootstrap for the user interface
 
 ---
 
 ## Core Functionality
 
 ### 1. CRUD Operations
-- Students and Courses support full CRUD operations  
-- Enrollments, Assignments, and Submissions are created and viewed through forms  
+
+- Students and Courses support full create, read, update, and delete operations
+- Enrollments, Assignments, and Submissions are created and viewed through forms
 
 ### 2. Relationships
-- Students and Courses have a many-to-many relationship through the Enrollment table  
-- Each Course can have multiple Assignments  
-- Each Student can have multiple Submissions  
+
+- Students and Courses have a many-to-many relationship through the Enrollment table
+- Each Course can have multiple Assignments
+- Each Student can have multiple Submissions
 
 ### 3. Transaction Handling
-When a submission is recorded, the following happens together:
-- A submission record is inserted  
-- An activity log entry is created  
-- The student’s course progress is recalculated  
+
+When a submission is recorded, the following steps happen together:
+
+- A submission record is inserted
+- An activity log entry is created
+- The student’s course progress is recalculated
 
 If any step fails, the transaction is rolled back.
 
 ### 4. Validation
-- Empty fields are not allowed  
-- Email must be unique  
-- Duplicate enrollments are prevented  
-- Scores must be within valid range  
-- Dates are validated (including reasonable year limits)  
-- End date cannot be before start date  
+
+- Empty fields are not allowed
+- Email must be unique
+- Duplicate enrollments are prevented
+- Scores must be within the valid range
+- Dates are validated, including reasonable year limits
+- End date cannot be before start date
 
 ---
 
 ## Installation Instructions
 
-### 1. Create and activate a virtual environment
+### 1. Clone the repository
+
 ```bash
-python -m venv venv
+git clone https://github.com/r387k939/HemanthKumar.git
+cd HemanthKumar
+```
+
+### 2. Create and activate a virtual environment
+
+```bash
+python3 -m venv venv
 source venv/bin/activate
 ```
 
-### 2. Install dependencies
+### 3. Install dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
+---
+
 ## Database Setup
-This project uses SQLite for easy grading and setup.
+
+This project uses SQLite for easy setup and grading.
 
 The application automatically creates the database the first time it starts by running `final_schema.sql`.
 
-If you want to inspect the schema manually:
-```bash
-sqlite3 instance/project3.db < final_schema.sql
-```
-
-
-## GitHub Repository
-
-https://github.com/r387k939/HemanthKumar
-
-## Usage
-
- ## How to Run the Project
-
-1. Navigate to the project folder:
+If needed, the existing local database can be reset with:
 
 ```bash
-cd hemanth_dbms_project3_submission
+rm -f instance/project3.db
 ```
 
-2. Start the server:
+Then run the app again:
 
 ```bash
 python app.py
 ```
 
-3. Open in the browser:
+---
+
+## How to Run the Project
+
+### 1. Start the server
+
+```bash
+python app.py
+```
+
+### 2. Open the application in the browser
 
 ```text
 http://127.0.0.1:5000/
 ```
+
+---
+
+## Main Pages
+
+- `/` - Home page
+- `/dashboard` - Summary dashboard
+- `/students` - Student records
+- `/courses` - Course records
+- `/enrollments` - Enrollment records
+- `/assignments` - Assignment records
+- `/submissions` - Submission records
+- `/relationships` - Course relationship view
+
+---
+
+## GitHub Repository
+
+https://github.com/r387k939/HemanthKumar
