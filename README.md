@@ -97,10 +97,10 @@ https://github.com/r387k939/HemanthKumar
 ```bash
 cd hemanth_dbms_project3_submission
 
-### Start the server
+2. Start the server
 ```bash
 python app.py
 ```
-
-### Open in the browser
-http://127.0.0.1:5000/
+3. Open in the browser
+ 
+ http://127.0.0.1:5000/
