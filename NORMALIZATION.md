@@ -151,11 +151,47 @@ The final schema satisfies Third Normal Form (3NF) because:
 
 ---
 
+## 6. NORMALIZATION REPORT
+
+## Overview
+
+The database is normalized to Third Normal Form (3NF).
+
+---
+
+## Functional Dependencies
+
+- student_id → full_name, email, program_id, status_id
+- course_id → course_name, instructor_id
+- assignment_id → course_id, title, max_score
+
+---
+
+## 1NF
+
+- All tables contain atomic values
+- No repeating groups
+
+---
+
+## 2NF
+
+- All non-key attributes depend on full primary key
+
+---
+
+## 3NF
+
+- No transitive dependencies
+- Lookup tables created:
+  - programs
+  - student_statuses
+  - record_sources
+
+---
+
 ## 6. Conclusion
 
-While the original schema was already functional, this redesign improves it by separating repeated descriptive values into dedicated lookup tables and enforcing stronger constraints.
-
-This makes the database easier to maintain, reduces redundancy, and minimizes the risk of inconsistent data. The final structure also aligns well with how the Flask application interacts with the database in this project.
-
+The schema satisfies 3NF and prevents redundancy and anomalies.
 
 ## Git Hub Repository Link : " https://github.com/r387k939/HemanthKumar "
