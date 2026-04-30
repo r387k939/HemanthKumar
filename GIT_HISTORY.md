@@ -19,6 +19,9 @@ This project was developed using Git version control. I made multiple commits wh
 7. Restored seed_data.sql file
 8. Fixed typing mistake in README and improved documentation clarity
 9. Fixed repository URL link correctly
+10. Updated Git history to match actual commit records.
+11. Updated README.md instructions successfully.
+12. Performed Finalized Edits on GIT_History.md file.
 
 ## How to Check Commits
 
@@ -26,3 +29,4 @@ This project was developed using Git version control. I made multiple commits wh
 
 ```bash
 git log --oneline
+
