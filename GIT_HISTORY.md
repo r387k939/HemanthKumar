@@ -1,29 +1,28 @@
 # Git History
 
+## My GitHub Repository Link
 
-## My GitHub Repository Link :
+https://github.com/r387k939/HemanthKumar
 
- https://github.com/r387k939/HemanthKumar
-
- 
 ## Overview
 
-This project was developed step-by-step using Git version control. I've committed changes incrementally while implementing different features.
+This project was developed using Git version control. I made multiple commits while setting up the Flask application, database schema, templates, documentation, and final cleanup.
 
-## My Commit Progress
+## Actual Commit History
 
-1. Initial setup of project structure (Flask app, models, templates)
-2. Added student module (create, edit, delete functionality)
-3. Implemented course and enrollment features
-4. Added assignments and submission tracking
-5. Fixed transaction handling and validation errors
-6. Final cleanup, documentation, and UI fixes
+1. Set up Flask app scaffold and dependencies
+2. Add normalized schema and starter data
+3. Build Bootstrap templates for CRUD views
+4. Write project documentation and normalization notes
+5. Attach submission packet for final handoff
+6. Initial commit - project setup with Flask app and database schema
+7. Restored seed_data.sql file
+8. Fixed typing mistake in README and improved documentation clarity
+9. Fixed repository URL link correctly
 
 ## How to Check Commits
 
-To view commit history locally:
+To view the commit history locally:
 
 ```bash
 git log --oneline
-
-My GitHub Repository Link : https://github.com/r387k939/HemanthKumar
