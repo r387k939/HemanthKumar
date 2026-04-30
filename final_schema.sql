@@ -21,6 +21,7 @@ CREATE TABLE student_statuses (
     status_name TEXT NOT NULL UNIQUE
 );
 
+
 CREATE TABLE record_sources (
     source_id INTEGER PRIMARY KEY AUTOINCREMENT,
     source_name TEXT NOT NULL UNIQUE
@@ -34,16 +35,9 @@ CREATE TABLE instructors (
 CREATE TABLE students (
     student_id INTEGER PRIMARY KEY AUTOINCREMENT,
     full_name TEXT NOT NULL,
-    email TEXT NOT NULL UNIQUE,
-    program_id INTEGER NOT NULL,
-    status_id INTEGER NOT NULL,
-    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (program_id)
-        REFERENCES programs(program_id),
-
-    FOREIGN KEY (status_id)
-        REFERENCES student_statuses(status_id)
+    email TEXT UNIQUE NOT NULL,
+    program_id INTEGER,
+    status_id INTEGER
 );
 
 CREATE TABLE courses (
