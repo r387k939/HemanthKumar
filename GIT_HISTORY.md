@@ -22,7 +22,7 @@ This project was developed using Git version control. I made multiple commits wh
 
 ## How to Check Commits
 
-To view the commit history locally:
+1. To view the commit history locally:
 
 ```bash
 git log --oneline
