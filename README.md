@@ -83,7 +83,10 @@ If you want to inspect the schema manually:
 sqlite3 instance/project3.db < final_schema.sql
 ```
 
-## Git Hub Repository Link : " https://github.com/r387k939/HemanthKumar "
+
+## GitHub Repository
+
+https://github.com/r387k939/HemanthKumar
 
 ## Usage
 
