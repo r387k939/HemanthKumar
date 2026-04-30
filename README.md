@@ -90,17 +90,22 @@ https://github.com/r387k939/HemanthKumar
 
 ## Usage
 
-## How to Run the Project
+ ## How to Run the Project
 
 1. Navigate to the project folder:
 
 ```bash
 cd hemanth_dbms_project3_submission
+```
 
-2. Start the server
+2. Start the server:
+
 ```bash
 python app.py
 ```
-3. Open in the browser
- 
- http://127.0.0.1:5000/
+
+3. Open in the browser:
+
+```text
+http://127.0.0.1:5000/
+```
