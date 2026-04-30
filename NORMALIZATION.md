@@ -163,6 +163,14 @@ This confirms that the application directly uses the normalized schema.
 
 ---
 
+
+## ER Diagram (Simplified)
+
+Students → Enrollments → Courses  
+Courses → Assignments → Submissions  
+Submissions → Activity Logs
+
+
 ## 8. Conclusion
 
 The initial design had repeated values that could cause update, insertion, and deletion problems.  
