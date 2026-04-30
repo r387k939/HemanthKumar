@@ -1,6 +1,6 @@
 # Student Assignment Tracker (DBMS Project 3)
 
-## Desciption
+## Description :
 
 This project is a full-stack database application built using Flask, SQLAlchemy, and SQLite.
 
@@ -21,7 +21,7 @@ The goal of the system is to manage students, courses, enrollments, assignments,
 
 ---
 
-## Technologies Used
+## Technologies Used : 
 
 - Python (Flask)
 - SQLAlchemy
