@@ -77,7 +77,7 @@ If any step fails, the transaction is rolled back.
 
 ---
 
-## Installation Instructions on Mac OS
+## Installation Instructions :
 
 ### 1. Clone the repository
 
@@ -133,42 +133,45 @@ python app.py
 ```
 
 Open browser:
-
 ```
 http://127.0.0.1:5000/
 ```
 
-## Installation Instructions on Mac OS
+## How to Run the Project on Windows OS :
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
+```bash
 git clone https://github.com/r387k939/HemanthKumar.git
-
 cd HemanthKumar
-
+```
 
 ### 2. Create and activate a virtual environment
 
 Open Command Prompt inside the project folder and type below :
 
+```bash
 python -m venv venv
-
 venv\Scripts\activate
-
+```
 
 ### 3. Install dependencies
 
+```bash
 pip install -r requirements.txt
-
+```
 
 ### 4. Run the application
 
+```bash
 python app.py
-
+```
 
 ### 5. Opening in your favourite Browser
 
+```bash
 http://127.0.0.1:5000
+```
 
 
 
