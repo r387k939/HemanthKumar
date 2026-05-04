@@ -77,7 +77,7 @@ If any step fails, the transaction is rolled back.
 
 ---
 
-## Installation Instructions
+## Installation Instructions on Mac OS
 
 ### 1. Clone the repository
 
@@ -121,7 +121,7 @@ python app.py
 
 ---
 
-## How to Run the Project
+## How to Run the Project on Mac :
 
 ```bash
 git clone https://github.com/r387k939/HemanthKumar.git
@@ -137,3 +137,40 @@ Open browser:
 ```
 http://127.0.0.1:5000/
 ```
+
+## Installation Instructions on Mac OS
+
+### 1. Clone the repository
+
+git clone https://github.com/r387k939/HemanthKumar.git
+
+cd HemanthKumar
+
+
+### 2. Create and activate a virtual environment
+
+Open Command Prompt inside the project folder and type below :
+
+python -m venv venv
+
+venv\Scripts\activate
+
+
+### 3. Install dependencies
+
+pip install -r requirements.txt
+
+
+### 4. Run the application
+
+python app.py
+
+
+### 5. Opening in your favourite Browser
+
+http://127.0.0.1:5000
+
+
+
+
+
